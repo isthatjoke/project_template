@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+    {{object_list.title}}
+
+{% endblock %}
+
+{% block content%}
+
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col text-center" style="font-size: large;">
+            <h1>Контакты:</h1>
+            <br>
+            <p>Адрес - {{object_list.address}}</p>
+            <br>
+            <p>Телефон - {{object_list.phone}}</p>
+        </div>
+        <div class="col"></div>
+    </div>
+
+</div>
+
+{% endblock %}
