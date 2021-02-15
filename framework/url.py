@@ -1,4 +1,4 @@
-from view import IndexTemplateView, AboutTemplateView, ContactsTemplateView
+from view import ContactsTemplateView, IndexTemplateView, AboutTemplateView
 
 
 urls = {
