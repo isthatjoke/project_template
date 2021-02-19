@@ -1,8 +1,8 @@
 
 import re
 import urllib
-from url import urls
-from view import BadReqTemplateView
+from framework.url import urls
+from framework.view import BadReqTemplateView
 
 
 def parse_input_data(data: str):

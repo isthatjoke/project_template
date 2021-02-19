@@ -1,4 +1,5 @@
-from view import ContactsTemplateView, IndexTemplateView, AboutTemplateView
+
+from framework.view import ContactsTemplateView, IndexTemplateView, AboutTemplateView
 
 
 urls = {
