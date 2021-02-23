@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{object_list.title}}
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h1>Создание курса</h1>
+<form method="post">
+    <input type="text" name="name" placeholder="Название">
+    <br>
+    {% for item in object_list.categories %}
+    <input type="radio" id="{{item.id}}" name="category_id" value="{{item.id}}">
+    <label for="{{item.id}}">{{item.name[0]}}</label><br>
+    {% endfor %}
+    <br>
+    <button type="submit">Сохранить</button>
+</form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

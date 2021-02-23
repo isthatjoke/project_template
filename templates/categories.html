@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+    {{object_list.title}}
+
+{% endblock %}
+
+{% block content%}
+
+<div class="container mt-5">
+<div class="row">
+    <div class="col"></div>
+    <div class="col text-center">
+        <h1>Список категорий</h1>
+<ul>
+    {% if not object_list.categories %}
+    <h1>Пусто</h1>
+    {% else %}
+    {% for item in object_list.categories %}
+    <li>
+        {{item.name[0]|title}}.
+        <span>Количество курсов: {{item.course_count()}}</span>
+    </li>
+    {% endfor %}
+    {% endif %}
+</ul>
+    </div>
+    <div class="col"></div>
+</div>
+</div>
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col text-center" style="font-size: large;">
+            <h1>Создать категорию:</h1>
+            <br>
+            <form method="post">
+        <input type="text" name="name" placeholder="Название">
+<!--            <br>-->
+<!--            <select size="3" name="category_id">-->
+<!--                {% for category in object_list.categories %}-->
+<!--            <option value="{{category.id}}">{{category.name[0]}}</option>-->
+<!--                {% endfor %}-->
+<!--             </select>-->
+<!--            <br>-->
+		<button type="submit">Создать</button>
+    </form>
+        </div>
+        <div class="col"></div>
+    </div>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,11 @@
+from framework.patterns import SingletonByName
+from time import ctime
+
+
+class Logger(metaclass=SingletonByName):
+
+    def __init__(self, name):
+        self.name = name
+
+    def log(self, text):
+        print('log--->', text, ctime())
