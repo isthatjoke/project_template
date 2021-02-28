@@ -3,7 +3,7 @@ from framework.core import Application, DebugApplication, MockApplication
 from framework.templater import render
 from framework.saver import save_to_file
 from models import WebInterface
-from framework.log import Logger
+from framework.log import Logger, debug
 
 
 def secret_front(request):
@@ -38,7 +38,6 @@ def decode_value(val):
 def view_index(request):
     logger.log('view_index')
     request['title'] = 'Главная'
-    print(request)
     return '200 OK', render('templates/index.html', object_list=request)
 
 

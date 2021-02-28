@@ -2,6 +2,7 @@ import re
 import urllib
 # from main import BadReqTemplateView
 from framework.templater import render
+from framework.log import debug
 
 
 def view_404(request):
@@ -42,6 +43,7 @@ class Application:
         start_response(code, [('Content-Type', 'text/html')])
         return [body.encode('utf-8')]
 
+    @debug
     def add_route(self, url):
         def inner(view):
             self.urls[url] = view
@@ -67,21 +69,10 @@ class Application:
 
 class DebugApplication(Application):
 
-    def __init__(self, front_controllers):
-        self.app = Application(front_controllers)
-        super().__init__(front_controllers)
-
     def __call__(self, env, start_response):
-        # print('DEBUG MODE')
-        # print(env)
-        return self.app(env, start_response)
-
-    # def add_route(self, url):
-    #     def inner(view):
-    #         self.urlpatterns[url] = view
-    #         self.application.urlpatterns[url] = view
-    #
-    #     return inner
+        print('DEBUG MODE')
+        print(env)
+        return super().__call__(env, start_response)
 
 
 class MockApplication(Application):
