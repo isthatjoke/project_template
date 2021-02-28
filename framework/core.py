@@ -6,8 +6,8 @@ from framework.templater import render
 
 def view_404(request):
     request['title'] = '404_page'
-    page = render('templates/404.html', object_list=request).encode('utf-8')
-    return '404 WHAT', [page]
+    page = render('templates/404.html', object_list=request)
+    return '404 WHAT', page
 
 
 class Application:
@@ -18,6 +18,7 @@ class Application:
         self.fronts = fronts
 
     def __call__(self, environ, start_response):
+
         self.path = environ['PATH_INFO']
         if re.findall(r'\w+\/$', self.path):
             self.path = self.path[:-1]
@@ -37,6 +38,7 @@ class Application:
         if self.path == '/contacts':
             self.fronts['contacts'](self.request)
         code, body = view(self.request)
+
         start_response(code, [('Content-Type', 'text/html')])
         return [body.encode('utf-8')]
 
@@ -61,3 +63,33 @@ class Application:
         content_length = int(content_length_data) if content_length_data else 0
         data = environ['wsgi.input'].read(content_length) if content_length > 0 else b''
         return data
+
+
+class DebugApplication(Application):
+
+    def __init__(self, front_controllers):
+        self.app = Application(front_controllers)
+        super().__init__(front_controllers)
+
+    def __call__(self, env, start_response):
+        # print('DEBUG MODE')
+        # print(env)
+        return self.app(env, start_response)
+
+    # def add_route(self, url):
+    #     def inner(view):
+    #         self.urlpatterns[url] = view
+    #         self.application.urlpatterns[url] = view
+    #
+    #     return inner
+
+
+class MockApplication(Application):
+
+    def __init__(self, front_controllers):
+        self.app = Application(front_controllers)
+        super().__init__(front_controllers)
+
+    def __call__(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/html')])
+        return [b'Hello from Mock']

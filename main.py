@@ -1,5 +1,5 @@
 import quopri
-from framework.core import Application
+from framework.core import Application, DebugApplication, MockApplication
 from framework.templater import render
 from framework.saver import save_to_file
 from models import WebInterface
@@ -21,7 +21,9 @@ def contacts_front(request):
 
 fronts = {'secret_front': secret_front, 'other_front': about_front, 'contacts': contacts_front}
 
-app = Application(fronts)
+# app = Application(fronts)
+app = DebugApplication(fronts)
+# app = MockApplication(fronts)
 web = WebInterface()
 logger = Logger('main')
 
@@ -36,6 +38,7 @@ def decode_value(val):
 def view_index(request):
     logger.log('view_index')
     request['title'] = 'Главная'
+    print(request)
     return '200 OK', render('templates/index.html', object_list=request)
 
 
