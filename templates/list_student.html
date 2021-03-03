@@ -12,15 +12,14 @@
 <div class="row">
     <div class="col"></div>
     <div class="col text-center">
-        <h1>Список курсов</h1>
+        <h1>Список Студентов</h1>
 <ul>
-    {% if not object_list.courses %}
+    {% if not object_list.students %}
     <h1>Пусто</h1>
     {% else %}
-    {% for item in object_list.courses %}
+    {% for item in object_list.students %}
     <li>
         {{item.name[0]|title}}.
-        <span>Количество студентов: {{item.students_count()}}</span>
     </li>
     {% endfor %}
     {% endif %}

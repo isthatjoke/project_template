@@ -1,4 +1,32 @@
 from framework.patterns import PrototypeMixin
+from framework.observer import Subject, Observer
+
+
+class User:
+    def __init__(self, name):
+        self.name = name
+
+
+class Teacher(User):
+    pass
+
+
+class Student(User):
+
+    def __init__(self, name):
+        self.courses = []
+        super().__init__(name)
+
+
+class UserFactory:
+    types = {
+        'student': Student,
+        'teacher': Teacher
+    }
+
+    @classmethod
+    def create(cls, type_, name):
+        return cls.types[type_](name)
 
 
 class Category:
@@ -18,12 +46,25 @@ class Category:
         return result
 
 
-class Course(PrototypeMixin):
+class Course(PrototypeMixin, Subject):
 
     def __init__(self, name, category):
         self.name = name
         self.category = category
         self.category.courses.append(self)
+        self.students = []
+        super().__init__()
+
+    def __getitem__(self, item):
+        return self.students[item]
+
+    def add_student(self, student: Student):
+        self.students.append(student)
+        student.courses.append(self)
+        self.notify()
+
+    def students_count(self):
+        return len(self.students)
 
 
 class InteractiveCourse(Course):
@@ -49,6 +90,12 @@ class WebInterface:
     def __init__(self):
         self.courses = []
         self.categories = []
+        self.teachers = []
+        self.students = []
+
+    @staticmethod
+    def create_user(type_, name):
+        return UserFactory.create(type_, name)
 
     def create_category(self, name, category=None):
         return Category(name, category)
@@ -66,6 +113,15 @@ class WebInterface:
         for item in self.courses:
             if item.name == name:
                 return item
-        return None
 
+    def get_student(self, name) -> Student:
+        for item in self.students:
+            if item.name == name:
+                return item
+
+
+class EmailNotifier(Observer):
+
+    def update(self, subject: Course):
+        print(('EMAIL->', 'к нам присоединился', subject.students[-1].name))
 

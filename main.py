@@ -109,3 +109,40 @@ def view_list_courses(request):
     return '200 OK', render('templates/list_course.html', object_list=request)
 
 
+@app.add_route('/student_add')
+def view_student_add(request):
+    request['title'] = 'Запись на курс'
+    request['courses'] = web.courses
+    request['students'] = web.students
+    if request['method'] == 'POST':
+        data = request['data']
+        print(request)
+        course_name = data['course_name']
+        print(course_name)
+        course = web.get_course(course_name)
+        print(course)
+        student_name = data['student_name']
+        student = web.get_student(student_name)
+        course.add_student(student)
+    return '200 OK', render('templates/add_student.html', object_list=request)
+
+
+@app.add_route('/student_create')
+def view_student_add(request):
+    request['title'] = 'Создать студента'
+    if request['method'] == 'POST':
+        data = request['data']
+        name = data['name']
+        new_obj = web.create_user('student', name)
+        web.students.append(new_obj)
+    return '200 OK', render('templates/create_student.html', object_list=request)
+
+
+@app.add_route('/student_list')
+def view_student_add(request):
+    request['title'] = 'Список студентов'
+    request['students'] = web.students
+    return '200 OK', render('templates/list_student.html', object_list=request)
+
+
+
